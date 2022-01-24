@@ -16,9 +16,6 @@ namespace DI
             DI.InitInjectQueue();
         }
 
-        [SerializeField]
-        UIHierarchyFactory hierarchyFactory;
-
         interface IA { }
         interface IB { }
         interface IC { }
