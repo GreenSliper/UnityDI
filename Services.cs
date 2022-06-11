@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DI
 {
+    interface IServices
+    {
+        void ConfigureServices();
+    }
     public class Services : MonoBehaviour
     {
         /// <summary>
@@ -12,7 +17,9 @@ namespace DI
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void OnBeforeSceneLoadRuntimeMethod()
         {
-            FindObjectOfType<Services>().ConfigureServices();
+            var svc = FindObjectsOfType<MonoBehaviour>().OfType<IServices>().FirstOrDefault();
+            if (svc != null)
+                svc.ConfigureServices();
             DI.InitInjectQueue();
         }
 
@@ -52,7 +59,7 @@ namespace DI
         /// <summary>
 		/// Describe all your dependencies here. In other scenes you may call DI.ClearDependencies before re-injecting other ones
 		/// </summary>
-        void ConfigureServices()
+        public void ConfigureServices()
         {
             if (init)
                 return;
